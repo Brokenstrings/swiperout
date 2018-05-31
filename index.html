@@ -1,0 +1,169 @@
+<!doctype html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="maximum-scale=1.0,minimum-scale=1.0,user-scalable=0,width=device-width,initial-scale=1.0"/>
+	<meta name="format-detection" content="telephone=no" />
+    <title>document</title>
+	<link rel="stylesheet" href="https://seller.wasd1.cn/static/css/reset.css" />
+	<link rel="stylesheet" href="https://seller.wasd1.cn/static/css/icon.css" />
+	<link rel="stylesheet" href="chat.css" />
+</head>
+<style>
+html,body{background: #e4e4e4;}
+html,body,div,ul,ol,li,dl,dt,dd,form,input,textarea,table,h1,h2,h3,h4,p,span,a,em,i,img{margin: 0; padding: 0; font-style: normal;}
+body{font: 1em '\5FAE\8F6F\96C5\9ED1',Arial,'\9ED1\4F53','\5B8B\4F53';}
+ul,ol{list-style: none;}
+table{border-collapse: collapse;}
+img{border: none;}
+blockquote{margin: 0; padding: 0;}
+a{color: #333; text-decoration: none;}
+a:hover{text-decoration: none; color: #000;}
+input,select,textarea{outline: none; padding: 4px; font: 1em '\5FAE\8F6F\96C5\9ED1',Arial,'\9ED1\4F53','\5B8B\4F53'; -webkit-appearance: none; border-radius: 0;}
+input::-webkit-outer-spin-button,input::-webkit-inner-spin-button{-webkit-appearance: none !important; margin: 0;}
+.clearfix:after{content: ''; display: block; clear: both; visibility: hidden;}
+/*******************************************************************************************************************/
+.flex{display: -webkit-box;}
+.flexv{display: -webkit-box; -webkit-box-orient: vertical;}
+.flexitem{display: -webkit-box; -webkit-box-flex: 1; -webkit-flex: 1; flex: 1;}
+.flexitemv{display: -webkit-box; -webkit-box-flex: 1; -webkit-flex: 1; flex: 1; -webkit-box-orient: vertical;}
+.center{-webkit-box-align: center; -webkit-box-pack: center;}
+.centerv{-webkit-box-align: center;}
+.centerh{-webkit-box-pack: center;}
+.end{-webkit-box-align: end; -webkit-box-pack: end;}
+.endh{-webkit-box-pack: end;}
+.endv{-webkit-box-align: end;}
+/*******************************************************************************************************************/
+.listbox{overflow: hidden;}
+.listbox .lists{position: relative; height: 60px; border-bottom: 1px solid #ccc; background: #fff;}
+.listbox .lists .btns{position: absolute; left: 100%; top: 0; height: 100%; background: #f00;}
+.listbox .lists .btns .btn{width: 80px; color: #fff;}
+.listbox .lists .btns .btn:last-child{background: #ccc;}
+</style>
+<body>
+<div class="boxes" id="home">
+	<div class="listbox">
+		<div class="flex lists">
+			<div class="flexitem"></div>
+			<div class="flex btns">
+				<a href="#" class="flex center btn trash">删除</a>
+				<a href="#" class="flex center btn ontop">置顶</a>
+			</div>
+		</div>
+		<div class="flex lists">
+			<div class="flexitem"></div>
+			<div class="flex btns">
+				<a href="#" class="flex center btn ontop">置顶</a>
+				<a href="#" class="flex center btn trash">删除</a>
+			</div>
+		</div>
+		<div class="flex lists">
+			
+		</div>
+		<div class="flex lists">
+			
+		</div>
+		<div class="flex lists">
+			
+		</div>
+		<div class="flex lists">
+			
+		</div>
+		<div class="flex lists">
+			
+		</div>
+		<div class="flex lists">
+			
+		</div>
+		<div class="flex lists">
+			
+		</div>
+		<div class="flex lists">
+			
+		</div>
+		<div class="flex lists">
+			
+		</div>
+		<div class="flex lists">
+			
+		</div>
+		<div class="flex lists">
+			
+		</div>
+		<div class="flex lists">
+			
+		</div>
+		<div class="flex lists">
+			
+		</div>
+		<div class="flex lists">
+			
+		</div>
+		<div class="flex lists">
+			
+		</div>
+		<div class="flex lists">
+			
+		</div>
+		<div class="flex lists">
+			
+		</div>
+	</div>
+</div>
+<script type="text/javascript" src="//cdn.bootcss.com/zepto/1.1.6/zepto.min.js"></script>
+<script type="text/javascript">
+$('.listbox').on('touchstart','.lists',function (e){
+	this.pageX = e.touches[0].pageX,this.pageY = e.touches[0].pageY;
+	this.moveX = 0,this.maxWidth = 0;
+	if(!this.distance) this.distance = 0;
+	
+	var objects = $(this).find('.btns');
+	if(objects.size()){
+		var bg = objects.children().last().css('background-color');
+		this.maxWidth = objects.css({'width': 'auto','background-color': bg}).width();
+	}
+});
+$('.listbox').on('touchmove','.lists',function (e){
+	if($('.listbox .open').size() && $('.listbox .open')[0] != this) return;
+	var movex = this.pageX - e.touches[0].pageX,movey = this.pageY - e.touches[0].pageY;
+	if(Math.abs(movey) > Math.abs(movex) || Math.abs(movex) < 10) return;
+	if(movex < -10 && this.distance == 0) return;
+	e.preventDefault();
+	if(movex < 0){
+		var distance = movex + this.distance;
+		if(distance < 0) distance = 0;
+		this.direction = 'close';
+	}else{
+		var distance = movex - Math.floor(movex * 0.7) + this.distance;
+		if(distance > this.maxWidth && this.maxWidth > 0) $(this).find('.btns').width(distance);
+		this.direction = 'open';
+	}
+	this.moveX = distance;
+	this.setAttribute('style','transform:translate3d(' + (-distance) + 'px,0px,0px);transition-duration:0ms;');
+});
+$('.listbox').on('touchend','.lists',function (e){
+	var obj = $('.listbox .open');
+	if(obj.size() && obj[0] != this){
+		obj[0].distance = 0;
+		obj.removeClass('open').css({'transform':'translate3d(0px,0px,0px)','transition-duration':'300ms'});
+		return;
+	}
+	var inum = $(this).find('.btns').find('.btn').size();
+	e.returnValue = true;
+	if(this.moveX == 0) return;
+	if(Math.abs(this.moveX) < this.maxWidth / 2 / inum || this.direction == 'close'){
+		this.distance = 0;
+		this.direction = 'close'
+		this.setAttribute('style','transform:translate3d(0px,0px,0px);transition-duration:300ms;');
+	}else{
+		this.distance = this.maxWidth;
+		this.setAttribute('style','transform:translate3d(-' + this.distance + 'px,0px,0px);transition-duration:300ms;');
+	}
+	$(this).addClass(this.direction);
+});
+$('.listbox').on('click','.btn',function (){
+	alert(11);
+});
+</script>
+</body>
+</html>
